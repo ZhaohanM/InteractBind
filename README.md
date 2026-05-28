@@ -10,29 +10,6 @@
 
 </div>
 
-## Benchmark Tasks And Metrics
-
-InteractBind is both a dataset and a benchmark: it supports conventional
-protein-ligand outcome prediction as well as fine-grained evaluation of whether
-models can identify the residue-level interaction evidence behind binding.
-
-| Track | Task | Prediction Target | Evaluation Metrics |
-| --- | --- | --- | --- |
-| Traditional tasks | Virtual screening (binary classification) | Binder vs. non-binder protein-ligand pairs | AUROC, AUPRC, ACC, F1 |
-| Traditional tasks | Binding affinity prediction | Scalar binding affinity score | MSE, RMSE, Pearson, Spearman, Concordance Index |
-| New-paradigm tasks | Binding-site localisation | Protein residues involved in ligand binding | BRHR@K, including BRHR@1, BRHR@3, BRHR@5 |
-| New-paradigm tasks | Non-covalent interaction-type prediction | Binding-site residues decomposed by interaction type | Interaction-type-specific BRHR@K over hydrogen bonds, salt bridges, van der Waals contacts, hydrophobic contacts, pi-pi stacking, and cation-pi interactions |
-
-`BRHR@K` denotes Binding Residue Hit Rate at Top-K: a prediction is counted as
-correct if at least one of the top-ranked predicted protein residues overlaps
-with the ground-truth binding-site residues.
-
-<div align="center">
-
-<img src="assets/InteractBind.png" alt="InteractBind dataset construction, contents, and benchmark evaluation overview" width="96%">
-
-</div>
-
 ## Overview
 
 InteractBind is a physically grounded protein-ligand interaction dataset and
@@ -45,15 +22,48 @@ The dataset is hosted on Hugging Face:
 This GitHub repository provides benchmark usage notes, citation details, and
 future code/resources associated with InteractBind.
 
+<div align="center">
+
+<img src="assets/InteractBind.png" alt="InteractBind dataset construction, contents, and benchmark evaluation overview" width="96%">
+
+</div>
+
+## Supported Tasks And Metrics
+
+InteractBind is designed as both a dataset and a benchmark. It supports
+traditional protein-ligand outcome prediction while also enabling new
+fine-grained tasks that evaluate whether models identify the residue-level
+interaction evidence behind binding.
+
+- **Traditional tasks**
+  - **Virtual screening (binary classification):** predict whether a
+    protein-ligand pair binds. Common evaluation metrics include AUROC, AUPRC,
+    accuracy, and F1-score.
+  - **Binding affinity prediction:** predict the strength of protein-ligand
+    binding. Common evaluation metrics include RMSE, MAE, Pearson correlation,
+    Spearman correlation, and concordance index.
+
+- **New-paradigm tasks**
+  - **Binding-site localisation:** identify protein residues involved in ligand
+    binding from model-derived interaction signals.
+  - **Non-covalent interaction-type prediction:** identify binding-site
+    evidence by interaction type, including hydrogen bonding, salt bridges,
+    van der Waals contacts, hydrophobic contacts, π–π stacking, and cation–π
+    interactions.
+  - **Metrics under development:** InteractBind is intended to support new
+    evaluation metrics for residue-level localisation, interaction-type
+    correctness, and atom-residue contact fidelity. We welcome new metric
+    designs and will continue updating the benchmark protocol.
+
 ## Dataset At A Glance
 
 | Item | Description |
 | --- | --- |
 | Paper | [A Large-Scale Dataset and Benchmark: Do Protein-Ligand Models Learn Binding Sites or Just Binding Likelihood?](https://arxiv.org/abs/2605.24045) |
 | Dataset | [Zhaohan-Meng/InteractBind](https://huggingface.co/datasets/Zhaohan-Meng/InteractBind) |
-| Size | 99,391 protein-ligand pairs; 151,895 rows on Hugging Face across released subsets |
-| Modalities | Protein sequences, ligand strings, binding labels, affinity values, interaction maps |
-| Formats | CSV, with Hugging Face Dataset Viewer support |
+| Scale | 99,391 protein-ligand pairs; 151,895 rows on Hugging Face across released subsets |
+| Modalities | Protein sequences, ligand strings, binding labels, affinity values, and interaction maps |
+| Format | CSV files with Hugging Face Dataset Viewer support |
 | License | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 ## What InteractBind Provides
@@ -64,7 +74,7 @@ future code/resources associated with InteractBind.
 | Ligand representation | SMILES and SELFIES |
 | Binding supervision | Binary binding label and binding affinity score |
 | Fine-grained supervision | Residue-level binding-site fingerprints and non-covalent interaction maps |
-| Generalization splits | Protein similarity-controlled OOD splits: `p_ood_25`, `p_ood_28`, `p_ood_31`, `p_ood_33` |
+| Generalization splits | Protein similarity-controlled OOD subsets: `p_ood_25`, `p_ood_28`, `p_ood_31`, `p_ood_33` |
 
 ## Dataset Access
 
@@ -103,8 +113,8 @@ from non-covalent interaction maps:
 | --- | --- |
 | `Hydrogen bonding_binding_site` | Hydrogen-bond binding-site residues |
 | `Salt Bridges_binding_site` | Salt-bridge binding-site residues |
-| `π–π Stacking_binding_site` | Pi-pi stacking binding-site residues |
-| `Cation–π_binding_site` | Cation-pi binding-site residues |
+| `π–π Stacking_binding_site` | π–π stacking binding-site residues |
+| `Cation–π_binding_site` | cation–π binding-site residues |
 | `Hydrophobic_binding_site` | Hydrophobic-contact binding-site residues |
 | `Van der Waals_binding_site` | Van der Waals contact residues |
 | `Overall_binding_site` | Union of supported interaction channels |
