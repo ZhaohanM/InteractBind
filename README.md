@@ -10,6 +10,8 @@
 
 </div>
 
+---
+
 ## Overview
 
 InteractBind is a physically grounded protein-ligand interaction dataset and
@@ -26,7 +28,12 @@ future code/resources associated with InteractBind.
 
 <img src="assets/InteractBind.png" alt="InteractBind dataset construction, contents, and benchmark evaluation overview" width="96%">
 
+<br>
+<sub>Dataset construction, annotation contents, and benchmark evaluation workflow.</sub>
+
 </div>
+
+---
 
 ## Supported Tasks And Metrics
 
@@ -35,25 +42,31 @@ traditional protein-ligand outcome prediction while also enabling new
 fine-grained tasks that evaluate whether models identify the residue-level
 interaction evidence behind binding.
 
-- **Traditional tasks**
-  - **Virtual screening (binary classification):** predict whether a
-    protein-ligand pair binds. Common evaluation metrics include AUROC, AUPRC,
-    accuracy, and F1-score.
-  - **Binding affinity prediction:** predict the strength of protein-ligand
-    binding. Common evaluation metrics include RMSE, MAE, Pearson correlation,
-    Spearman correlation, and concordance index.
+### Traditional Tasks
 
-- **New-paradigm tasks**
-  - **Binding-site localisation:** identify protein residues involved in ligand
-    binding from model-derived interaction signals.
-  - **Non-covalent interaction-type prediction:** identify binding-site
-    evidence by interaction type, including hydrogen bonding, salt bridges,
-    van der Waals contacts, hydrophobic contacts, π–π stacking, and cation–π
-    interactions.
-  - **Metrics under development:** InteractBind is intended to support new
-    evaluation metrics for residue-level localisation, interaction-type
-    correctness, and atom-residue contact fidelity. We welcome new metric
-    designs and will continue updating the benchmark protocol.
+- **Virtual screening (binary classification):** predict whether a
+  protein-ligand pair binds.
+- **Binding affinity prediction:** predict the strength of protein-ligand
+  binding.
+
+### New-Paradigm: Fine-Grained Evaluation Tasks
+
+- **Binding-site localisation:** identify protein residues involved in ligand
+  binding from model-derived interaction signals.
+- **Non-covalent interaction-type prediction:** identify binding-site evidence
+  by interaction type, including hydrogen bonding, salt bridges, van der Waals
+  contacts, hydrophobic contacts, π–π stacking, and cation–π interactions.
+
+**Metric:** `BRHR` (Binding Residue Hit Rate) evaluates whether the top-ranked
+model-predicted protein residues overlap with ground-truth binding-site
+residues. `BRHR@K` counts a prediction as correct when at least one of the
+Top-`K` predicted residues is a true binding-site residue; higher values indicate
+better localisation.
+
+> [!NOTE]
+> InteractBind is intended to support new evaluation metrics for residue-level localisation, interaction-type correctness, and atom-residue contact fidelity. We welcome new metric designs and will continue updating the benchmark protocol.
+
+---
 
 ## Dataset At A Glance
 
