@@ -2,16 +2,32 @@
 
 # InteractBind
 
-### A large-scale benchmark for asking whether protein-ligand models learn binding sites, or only binding likelihood.
-
 <!-- Project Badges -->
-[![Project Page](https://img.shields.io/badge/Project-Page-4285F4?style=for-the-badge&logo=googlelens&logoColor=white)](https://github.com/ZhaohanM/InteractBind)
 [![arXiv](https://img.shields.io/badge/arXiv-2605.24045-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2605.24045)
 [![Hugging Face](https://img.shields.io/badge/HuggingFace-Dataset-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/datasets/Zhaohan-Meng/InteractBind)
 [![License](https://img.shields.io/badge/License-CC_BY_4.0-green?style=for-the-badge)](https://creativecommons.org/licenses/by/4.0/)
 [![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2FZhaohanM%2FInteractBind&label=Views&countColor=%23f36f43&style=for-the-badge)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FZhaohanM%2FInteractBind)
 
-<br>
+</div>
+
+## Benchmark Tasks And Metrics
+
+InteractBind is both a dataset and a benchmark: it supports conventional
+protein-ligand outcome prediction as well as fine-grained evaluation of whether
+models can identify the residue-level interaction evidence behind binding.
+
+| Track | Task | Prediction Target | Evaluation Metrics |
+| --- | --- | --- | --- |
+| Traditional tasks | Virtual screening (binary classification) | Binder vs. non-binder protein-ligand pairs | AUROC, AUPRC, ACC, F1 |
+| Traditional tasks | Binding affinity prediction | Scalar binding affinity score | MSE, RMSE, Pearson, Spearman, Concordance Index |
+| New-paradigm tasks | Binding-site localisation | Protein residues involved in ligand binding | BRHR@K, including BRHR@1, BRHR@3, BRHR@5 |
+| New-paradigm tasks | Non-covalent interaction-type prediction | Binding-site residues decomposed by interaction type | Interaction-type-specific BRHR@K over hydrogen bonds, salt bridges, van der Waals contacts, hydrophobic contacts, pi-pi stacking, and cation-pi interactions |
+
+`BRHR@K` denotes Binding Residue Hit Rate at Top-K: a prediction is counted as
+correct if at least one of the top-ranked predicted protein residues overlaps
+with the ground-truth binding-site residues.
+
+<div align="center">
 
 <img src="assets/InteractBind.png" alt="InteractBind dataset construction, contents, and benchmark evaluation overview" width="96%">
 
@@ -26,8 +42,8 @@ supervision beyond binary labels or scalar affinity values.
 
 The dataset is hosted on Hugging Face:
 [Zhaohan-Meng/InteractBind](https://huggingface.co/datasets/Zhaohan-Meng/InteractBind).
-This GitHub repository provides the project landing page, usage notes, citation,
-and future code/resources associated with the benchmark.
+This GitHub repository provides benchmark usage notes, citation details, and
+future code/resources associated with InteractBind.
 
 ## Dataset At A Glance
 
@@ -35,7 +51,7 @@ and future code/resources associated with the benchmark.
 | --- | --- |
 | Paper | [A Large-Scale Dataset and Benchmark: Do Protein-Ligand Models Learn Binding Sites or Just Binding Likelihood?](https://arxiv.org/abs/2605.24045) |
 | Dataset | [Zhaohan-Meng/InteractBind](https://huggingface.co/datasets/Zhaohan-Meng/InteractBind) |
-| Size | 151,895 rows on Hugging Face, including affinity and protein OOD subsets |
+| Size | 99,391 protein-ligand pairs; 151,895 rows on Hugging Face across released subsets |
 | Modalities | Protein sequences, ligand strings, binding labels, affinity values, interaction maps |
 | Formats | CSV, with Hugging Face Dataset Viewer support |
 | License | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
@@ -49,15 +65,6 @@ and future code/resources associated with the benchmark.
 | Binding supervision | Binary binding label and binding affinity score |
 | Fine-grained supervision | Residue-level binding-site fingerprints and non-covalent interaction maps |
 | Generalization splits | Protein similarity-controlled OOD splits: `p_ood_25`, `p_ood_28`, `p_ood_31`, `p_ood_33` |
-
-## Supported Tasks
-
-- Protein-ligand binding prediction
-- Binding affinity regression
-- Binding-site localisation
-- Non-covalent interaction-type prediction
-- Interaction-aware representation learning
-- Explainable AI for molecular modelling
 
 ## Dataset Access
 
